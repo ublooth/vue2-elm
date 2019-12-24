@@ -173,17 +173,24 @@
             },
             async uploadAvatar(){
                 //上传头像
+                console.log("this.userInfo11", this.userInfo)
                 if (this.userInfo) {
-                    let input = document.querySelector('.profileinfopanel-upload')
-                    let data = new FormData();
-                    data.append('file', input.files[0]);
+                    console.log("this.userInfo22", this.userInfo)
+                    let input = document.querySelector('.profileinfopanel-upload'); // 获取文档中 class="profileinfopanel-upload" 的第一个元素
+                    console.log("input.files", input.files)
+                    console.log("input.files[0]", input.files[0])
+                    let data = new FormData(); // 通过FormData构造函数创建一个空对象
+                    data.append('file', input.files[0]); // 通过append()方法来追加数据
+                    // 处理异常，加上try catch
                     try{
                         let response = await fetch('/eus/v1/users/' + this.userInfo.user_id + '/avatar', {
                               method: 'POST',
                               credentials: 'include',
                               body: data
                             })
+                        console.log("response", response)
                         let res = await response.json();
+                        console.log("res", res)
                         if (res.status == 1) {
                             this.userInfo.avatar = res.image_path;
                         }
@@ -197,11 +204,13 @@
         },
         watch: {
             userInfo: function (value) {
+                console.log("userInfo-value", value)
                 if (value && value.user_id) {
                     this.username = value.username;
                     this.infotel = value.mobile;
                     this.avatar = value.avatar;
                 }
+                console.log("imgBaseUrl", imgBaseUrl)
             }
         }
     }
@@ -271,7 +280,7 @@
             margin-top:0;
             padding:.3rem .4rem;
             .headportrait-div{
-                @include fj(left)
+                @include fj(left);
                 p{
                     text-align:left;
                     line-height:1.39rem;

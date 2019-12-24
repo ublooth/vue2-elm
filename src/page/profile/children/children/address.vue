@@ -5,7 +5,7 @@
         </head-top>
         <section class="address">
         	<ul class="addresslist">
-        		<li v-for="(item,index) in removeAddress">
+        		<li v-for="(item,index) in removeAddress" :key="index">
         			<div>
         				<p>{{item.address}}</p>
         				<p><span>{{item.phone}}</span><span v-if="item.phonepk">、{{item.phonepk}}</span></p>

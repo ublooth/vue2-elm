@@ -106,6 +106,7 @@
              async getCaptchaCode(){
                 let res = await getcaptchas();
                 this.captchaCodeImg = res.code;
+                console.log("this.captchaCodeImg", this.captchaCodeImg)
             },
             //重置密码
             async resetButton(){
@@ -139,6 +140,7 @@
                 if (res.message) {
                     this.showAlert = true;
                     this.alertText = res.message;
+                    console.log('res.message', res.message)
                     this.getCaptchaCode()
                     return
                 }else{

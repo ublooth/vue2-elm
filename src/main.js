@@ -6,7 +6,7 @@ import {routerMode} from './config/env'
 import './config/rem'
 
 Vue.use(VueRouter)
-const router = new VueRouter({
+const router = new VueRouter({ // 记录页面位置
 	routes,
 	mode: routerMode,
 	strict: process.env.NODE_ENV !== 'production',

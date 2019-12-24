@@ -1,15 +1,14 @@
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
-var projectRoot = path.resolve(__dirname, '../')
+var projectRoot = path.resolve(__dirname, '../') // D:\vue商城\vue2-elm
 
-var env = process.env.NODE_ENV
+var env = process.env.NODE_ENV // online
     // check env & config/index.js to decide weither to enable CSS Sourcemaps for the
     // various preprocessor loaders added to vue-loader at the end of this file
-var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
-var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
-var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
-
+var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap) // falses
+var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap) // falses
+var useCssSourceMap = cssSourceMapDev || cssSourceMapProd // falses
 
 module.exports = {
     entry: {

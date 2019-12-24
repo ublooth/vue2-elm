@@ -21,6 +21,7 @@
                 <router-link  tag="li" v-for="item in hotcity" :to="'/city/' + item.id" :key="item.id">
                     {{item.name}}
                 </router-link>
+                <!-- 具有tag属性的router-link会被渲染成相应的标签 ==> <li>{{item.name}}</li> -->
             </ul>
         </section>
         <section class="group_city_container">
@@ -78,6 +79,8 @@ export default {
 
     computed:{
         //将获取的数据按照A-Z字母开头排序
+        // String.fromCharCode() 接受一个指定的 Unicode 值，然后返回一个字符串
+        // Unicode 值:A~Z ==> 65~90
         sortgroupcity(){
             let sortobj = {};
             for (let i = 65; i <= 90; i++) {
@@ -85,6 +88,7 @@ export default {
                     sortobj[String.fromCharCode(i)] = this.groupcity[String.fromCharCode(i)];
                 }
             }
+            console.log(sortobj)
             return sortobj
         }
     },

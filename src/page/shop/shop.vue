@@ -106,7 +106,7 @@
                                                 <h3 class="food_description_head">
                                                     <strong class="description_foodname">{{foods.name}}</strong>
                                                     <ul v-if="foods.attributes.length" class="attributes_ul">
-                                                        <li v-if="attribute" v-for="(attribute, foodindex) in foods.attributes" :key="foodindex" :style="{color: '#' + attribute.icon_color,borderColor:'#' + attribute.icon_color}" :class="{attribute_new: attribute.icon_name == '新'}">
+                                                        <li v-for="(attribute, foodindex) in foods.attributes" :key="foodindex" :style="{color: '#' + attribute.icon_color,borderColor:'#' + attribute.icon_color}" :class="{attribute_new: attribute.icon_name == '新'}">
                                                           <p :style="{color: attribute.icon_name == '新'? '#fff' : '#' + attribute.icon_color}">{{attribute.icon_name == '新'? '新品':attribute.icon_name}}</p>
                                                         </li>
                                                     </ul>
@@ -200,7 +200,7 @@
             </transition>
             <transition name="fade-choose">
                 <section class="rating_container" id="ratingContainer" v-show="changeShowType =='rating'">
-                    <section v-load-more="loaderMoreRating" type="2">
+                    <section v-load-more="loaderMoreRating" type="2" class="asd">
                         <section>
 
                             <header class="rating_header">
@@ -269,7 +269,7 @@
                 <div class="specs_list" v-if="showSpecs">
                     <header class="specs_list_header">
                         <h4 class="ellipsis">{{choosedFoods.name}}</h4>
-                        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1"class="specs_cancel" @click="showChooseList">
+                        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1" class="specs_cancel" @click="showChooseList">
                             <line x1="0" y1="0" x2="16" y2="16"  stroke="#666" stroke-width="1.2"/>
                             <line x1="0" y1="16" x2="16" y2="0"  stroke="#666" stroke-width="1.2"/>
                         </svg>
@@ -277,7 +277,7 @@
                     <section class="specs_details">
                         <h5 class="specs_details_title">{{choosedFoods.specifications[0].name}}</h5>
                         <ul>
-                            <li v-for="(item, itemIndex) in choosedFoods.specifications[0].values" :class="{specs_activity: itemIndex == specsIndex}" @click="chooseSpecs(itemIndex)">
+                            <li v-for="(item, itemIndex) in choosedFoods.specifications[0].values" :key="itemIndex" :class="{specs_activity: itemIndex == specsIndex}" @click="chooseSpecs(itemIndex)">
                                 {{item}}
                             </li>
                         </ul>
@@ -300,6 +300,7 @@
         @after-appear = 'afterEnter'
         @before-appear="beforeEnter"
         v-for="(item,index) in showMoveDot"
+        :key="index"
         >
             <span class="move_dot" v-if="item">
                 <svg class="move_liner">
@@ -437,6 +438,7 @@
                 this.shopDetailData = await shopDetails(this.shopId, this.latitude, this.longitude);
                 //获取商铺食品列表
                 this.menuList = await foodMenu(this.shopId);
+                console.log("menuList", this.menuList)
                 //评论列表
                 this.ratingList = await getRatingList(this.shopId, this.ratingOffset);
                 //商铺评论详情
@@ -459,6 +461,7 @@
                 }
             },
             //当滑动食品列表时，监听其scrollTop值来设置对应的食品列表标题的样式
+            // better-scroll 是一款重点解决移动端（已支持 PC）各种滚动场景需求的插件
             listenScroll(element){
                 this.foodScroll = new BScroll(element, {
                     probeType: 3,
@@ -683,13 +686,14 @@
             //商品、评论切换状态
             changeShowType: function (value){
                 if (value === 'rating') {
-                    this.$nextTick(() => {
+                    this.$nextTick(() => {  // better-scroll 是一款重点解决移动端（已支持 PC）各种滚动场景需求的插件
                         this.ratingScroll = new BScroll('#ratingContainer', {
                             probeType: 3,
                             deceleration: 0.003,
                             bounce: false,
                             swipeTime: 2000,
                             click: true,
+                            mouseWheel: true, // 用于 PC 端的鼠标滚轮
                         });
                         this.ratingScroll.on('scroll', (pos) => {
                             if (Math.abs(Math.round(pos.y)) >=  Math.abs(Math.round(this.ratingScroll.maxScrollY))) {
@@ -1405,7 +1409,7 @@
                                 display: flex;
                                 align-items: center;
                                 .time_spent_desc{
-                                    @include sc(.55rem, #666)
+                                    @include sc(.55rem, #666);
                                     margin-left: .15rem;
                                 }
                             }
